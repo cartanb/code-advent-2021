@@ -19,7 +19,28 @@ const findAllPaths = (pathArr) => {
     }
   }
 
-  // traverseCaves(adj);
+  traverseCaves('start', adj);
+  return result;
+
+  function traverseCaves(currentCave, caveGraph, cavesVisited = []) {
+    if (currentCave === 'end') {
+      result += 1;
+      return;
+    }
+
+    const stack = [];
+    for (let i = 0; i < caveGraph[currentCave].length; i += 1) {
+      const nextCave = caveGraph[currentCave][i];
+      const capsCheck = /[A-Z]+/;
+      if (!cavesVisited.includes(nextCave) || capsCheck.test(nextCave)) {
+        stack.push(nextCave);
+      }
+    }
+    while (stack.length) {
+      const nextCave = stack.pop();
+      traverseCaves(nextCave, caveGraph, [...cavesVisited, currentCave]);
+    }
+  }
 };
 
 console.log(findAllPaths(input));
